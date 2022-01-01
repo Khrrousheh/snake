@@ -12,6 +12,7 @@ class Game:
         pygame.init()
         self.surface = pygame.display.set_mode((1080, 640))
         self.surface.fill((000, 255, 000))
+        self.running = True
         self.snake = Snake(self.surface, 2)
         self.apple = Apple(self.surface)
         self.snake.draw()
@@ -20,16 +21,23 @@ class Game:
     def is_collision(self, x1, y1, x2, y2):
         if x1 >= x2 and x1 < x2+SIZE:
             if y1 >= y2 and y1 <= y2+SIZE:
-                self.apple.move()
-                self.snake.increase_length()
-                if(self.speed >= float(0.1)):
-                    self.speed -= float(0.02)
+                return True
+        return False
 
     def play(self):
         self.snake.walk()
         self.apple.draw()
-        self.is_collision(self.snake.block_x[0],
-                          self.snake.block_y[0], self.apple.x, self.apple.y)
+
+        if self.is_collision(self.snake.block_x[0], self.snake.block_y[0], self.apple.x, self.apple.y):
+            self.apple.move()
+            self.snake.increase_length()
+            if(self.speed >= float(0.1)):
+                self.speed -= float(0.02)
+
+        for i in range(3, self.snake.length):
+            if self.is_collision(self.snake.block_x[0], self.snake.block_y[0], self.snake.block_x[i], self.snake.block_y[i]):
+                raise "Game Over"
+
         self.display_score()
         self.display_speed()
         pygame.display.flip()
@@ -46,8 +54,8 @@ class Game:
         self.surface.blit(score, (800, 10))
 
     def run(self):
-        run = True
-        while run:
+
+        while self.running:
             for event in pygame.event.get():
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
@@ -68,5 +76,10 @@ class Game:
                 elif event.type == QUIT:
                     run = False
 
-            self.play()
+            try:
+                self.play()
+            except Exception as e:
+                self.running = False
             time.sleep(self.speed)
+        else:
+            print('gameOver')
