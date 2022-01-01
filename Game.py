@@ -8,7 +8,7 @@ import time
 
 class Game:
     def __init__(self):
-        self.speed = 0.3
+        self.speed = float(0.2)
         pygame.init()
         self.surface = pygame.display.set_mode((1080, 640))
         self.surface.fill((000, 255, 000))
@@ -22,12 +22,28 @@ class Game:
             if y1 >= y2 and y1 <= y2+SIZE:
                 self.apple.move()
                 self.snake.increase_length()
+                if(self.speed >= float(0.1)):
+                    self.speed -= float(0.02)
 
     def play(self):
         self.snake.walk()
         self.apple.draw()
         self.is_collision(self.snake.block_x[0],
                           self.snake.block_y[0], self.apple.x, self.apple.y)
+        self.display_score()
+        self.display_speed()
+        pygame.display.flip()
+
+    def display_speed(self):
+        font = pygame.font.SysFont('arial', 30)
+        mySpeed = font.render(f'Speed: {self.speed}', True, (255, 0, 200))
+        self.surface.blit(mySpeed, (0, 10))
+
+    def display_score(self):
+        font = pygame.font.SysFont('arial', 30)
+        score = font.render(
+            f'Score: {self.snake.length}', True, (255, 0, 200))
+        self.surface.blit(score, (800, 10))
 
     def run(self):
         run = True
