@@ -14,6 +14,11 @@ class Snake:
         self.block_y = [SIZE]*length
         self.direction = 'down'
 
+    def increase_length(self):
+        self.length += 1
+        self.block_x.append(-1)
+        self.block_y.append(-1)
+
     def draw(self):
         self.surface.fill((000, 255, 000))
         for i in range(0, self.length):

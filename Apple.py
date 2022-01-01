@@ -17,6 +17,6 @@ class Apple:
         pygame.display.update()
 
     def move(self):
-        self.x = random.randint(0, 27)*SIZE
-        self.y = random.randint(0, 16)*SIZE
+        self.x = random.randint(0, 25)*SIZE
+        self.y = random.randint(0, 14)*SIZE
         self.draw()

@@ -12,7 +12,7 @@ class Game:
         pygame.init()
         self.surface = pygame.display.set_mode((1080, 640))
         self.surface.fill((000, 255, 000))
-        self.snake = Snake(self.surface, 6)
+        self.snake = Snake(self.surface, 2)
         self.apple = Apple(self.surface)
         self.snake.draw()
         self.apple.draw()
@@ -21,8 +21,7 @@ class Game:
         if x1 >= x2 and x1 < x2+SIZE:
             if y1 >= y2 and y1 <= y2+SIZE:
                 self.apple.move()
-                if self.speed != 0.0:
-                    self.speed -= 0.02
+                self.snake.increase_length()
 
     def play(self):
         self.snake.walk()
