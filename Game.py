@@ -1,16 +1,34 @@
 import pygame
+from pygame import image
 from pygame.locals import *
-from Snake import Snake
+from Snake import SIZE, Snake
+from Apple import Apple
 import time
 
 
 class Game:
     def __init__(self):
+        self.speed = 0.3
         pygame.init()
         self.surface = pygame.display.set_mode((1080, 640))
         self.surface.fill((000, 255, 000))
-        self.snake = Snake(self.surface, 2)
+        self.snake = Snake(self.surface, 6)
+        self.apple = Apple(self.surface)
         self.snake.draw()
+        self.apple.draw()
+
+    def is_collision(self, x1, y1, x2, y2):
+        if x1 >= x2 and x1 < x2+SIZE:
+            if y1 >= y2 and y1 <= y2+SIZE:
+                self.apple.move()
+                if self.speed != 0.0:
+                    self.speed -= 0.02
+
+    def play(self):
+        self.snake.walk()
+        self.apple.draw()
+        self.is_collision(self.snake.block_x[0],
+                          self.snake.block_y[0], self.apple.x, self.apple.y)
 
     def run(self):
         run = True
@@ -35,5 +53,5 @@ class Game:
                 elif event.type == QUIT:
                     run = False
 
-            self.snake.walk()
-            time.sleep(0.2)
+            self.play()
+            time.sleep(self.speed)
