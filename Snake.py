@@ -40,21 +40,21 @@ class Snake:
         if self.direction == 'down':
             if self.block_y[0] >= 640:
                 self.block_y[0] = 0
-            self.block_y[0] += 40
+            self.block_y[0] += SIZE
 
         elif self.direction == 'up':
             if self.block_y[0] <= 0:
                 self.block_y[0] = 640
-            self.block_y[0] -= 40
+            self.block_y[0] -= SIZE
 
         elif self.direction == 'left':
             if self.block_x[0] <= 0:
                 self.block_x[0] = 1080
-            self.block_x[0] -= 40
+            self.block_x[0] -= SIZE
 
         elif self.direction == 'right':
             if self.block_x[0] >= 1080:
                 self.block_x[0] = 0
-            self.block_x[0] += 40
+            self.block_x[0] += SIZE
 
         self.draw()
